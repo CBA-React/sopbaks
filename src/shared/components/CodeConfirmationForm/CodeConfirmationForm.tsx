@@ -1,8 +1,11 @@
 'use client';
 
-import React from 'react';
+import React, { JSX } from 'react';
 
-export default function CodeConfirmationForm() {
+import { OTP } from '@/shared/components/OTP/OTP';
+
+export default function CodeConfirmationForm(): JSX.Element {
+    const [otp, setOTP] = React.useState<string>('');
     const onSubmit = () => {
         console.log('Form submitted:');
     };
@@ -13,12 +16,15 @@ export default function CodeConfirmationForm() {
                 <h2 className="text-[32px] font-bold">Reset Password</h2>
 
                 <p className="text-sm mb-6">
-                    Enter the email address associated with your account and we’ll send you a link to reset your password.
+                    Enter the email address associated with your account and
+                    we’ll send you a link to reset your password.
                 </p>
             </div>
+            <OTP value={otp} onChange={setOTP} />
             <button
                 type="submit"
                 className="w-full bg-[#C32033] text-white py-3 rounded-[10px] font-medium cursor-pointer"
+                disabled={!otp}
             >
                 Create New Password
             </button>

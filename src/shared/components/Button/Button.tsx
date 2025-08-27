@@ -6,7 +6,7 @@ interface ButtonProps {
     icon?: ReactNode;
     className?: string;
     onClick?: () => void;
-    variant?: 'primary' | 'secondary';
+    variant?: 'primary' | 'secondary' | 'link';
 }
 
 export default function Button({
@@ -26,6 +26,8 @@ export default function Button({
                         variant === 'primary',
                     'text-[#C32033] bg-white border border-[#C32033] hover:bg-gray-50':
                         variant === 'secondary',
+                    'text-[#C32033] bg-transparent border-none px-0 py-0 rounded-none hover:text-[#A01A2A] hover:underline':
+                        variant === 'link',
                 },
                 className,
             )}

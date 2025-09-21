@@ -9,18 +9,18 @@ import LineChart from '@/shared/components/LineChart/LineChart';
 export default function Ads(): JSX.Element {
     return (
         <main className={'max-w-[1100px]'}>
-            <div className="flex justify-end">
-                <Link href="/create-campaign">
+            <div className="flex lg:justify-end">
+                <Link href="/create-campaign" className="w-full lg:w-auto">
                     <Button
                         text={'Create New Campaign'}
-                        className="py-[10px] px-10 font-semibold"
+                        className="py-[10px] px-10 font-semibold w-full lg:w-auto justify-center"
                     />
                 </Link>
             </div>
             <h2 className={'text-[24px] font-semibold mt-10'}>Insights</h2>
-            <div className={'flex mt-5 gap-5'}>
+            <div className={'flex flex-col lg:flex-row mt-5 gap-5'}>
                 {/*<div className={'w-[780px] border h-[423px]'}></div>*/}
-                <LineChart/>
+                <LineChart />
                 <DoughnutChart />
             </div>
             <AdsTable />

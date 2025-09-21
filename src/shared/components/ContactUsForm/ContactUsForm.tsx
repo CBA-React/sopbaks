@@ -1,5 +1,6 @@
 'use client';
 
+import { JSX } from 'react';
 import { useForm } from 'react-hook-form';
 
 import Button from '@/shared/components/Button/Button';
@@ -13,7 +14,7 @@ interface FormValues {
     terms: boolean;
 }
 
-export default function ContactUsForm() {
+export default function ContactUsForm(): JSX.Element {
     const {
         register,
         handleSubmit,
@@ -25,7 +26,7 @@ export default function ContactUsForm() {
     };
 
     return (
-        <div className="max-w-[1020px] mx-auto mt-[60px] px-10 py-10 bg-white rounded-[20px]">
+        <div className="max-w-[1020px] mx-auto mt-[60px] px-3 py-5 lg:px-10 lg:py-10 bg-white rounded-[20px]">
             <h3 className="text-[24px] font-semibold">Still have questions?</h3>
             <p className="text-[#535862] mt-4">
                 Can’t find the answer you’re looking for? Please chat to our
@@ -36,7 +37,7 @@ export default function ContactUsForm() {
                 onSubmit={handleSubmit(onSubmit)}
                 className="mt-10 flex flex-col gap-6"
             >
-                <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex flex-col lg:flex-row gap-4">
                     <Input
                         placeholder="Your Name"
                         registration={register('name', {

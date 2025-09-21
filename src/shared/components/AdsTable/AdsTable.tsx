@@ -116,7 +116,7 @@ export default function AdsTable(): JSX.Element {
                     <tbody>
                         {data.map((row) => (
                             <tr key={row.id}>
-                                <td className="py-3 px-4 flex items-center gap-3">
+                                <td className="py-3 lg:px-4 flex items-center gap-3">
                                     <Image
                                         src={row.post.img}
                                         alt="Post"

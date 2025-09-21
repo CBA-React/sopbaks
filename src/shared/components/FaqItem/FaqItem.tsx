@@ -1,3 +1,4 @@
+import { JSX } from 'react';
 import Image from 'next/image';
 
 interface FaqItemProps {
@@ -6,9 +7,13 @@ interface FaqItemProps {
     icon: string;
 }
 
-export default function FaqItem({ title, text, icon }: FaqItemProps) {
+export default function FaqItem({
+    title,
+    text,
+    icon,
+}: FaqItemProps): JSX.Element {
     return (
-        <div className={'max-w-[318px]'}>
+        <div className={'w-full'}>
             <div>
                 <Image src={icon} alt={title} width={48} height={48} />
             </div>

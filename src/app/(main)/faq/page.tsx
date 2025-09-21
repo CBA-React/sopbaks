@@ -50,10 +50,14 @@ export default function Faq(): JSX.Element {
             <div
                 // max-w-[1100px]
                 className={
-                    'bg-[#FAFAFA] rounded-[20px] w-full py-[60px] px-[40px] mt-5'
+                    'bg-[#FAFAFA] rounded-[20px] w-full py-[60px] px-[20px] lg:px-[40px] mt-5'
                 }
             >
-                <section className={' flex flex-wrap gap-[32px] mt-5'}>
+                <section
+                    className={
+                        'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[32px] lg:mt-5'
+                    }
+                >
                     {faqArray.map((faq) => (
                         <FaqItem
                             key={faq.title}

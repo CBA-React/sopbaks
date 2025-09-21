@@ -4,3 +4,4 @@
 ## verification code page - ui done
 ## create password page - ui done
 ## settings page - ui done
+## streaming options page - ui done

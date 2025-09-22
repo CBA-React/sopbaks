@@ -1,11 +1,30 @@
 'use client';
 
-import { JSX } from 'react';
+import { JSX, useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import Button from '@/shared/components/Button/Button';
 import GraphIcon from '@/shared/components/GraphIcon/GraphIcon';
 import { formatNumber } from '@/utils/formatNumber';
+
+import AllIcon from 'public/icons/adsTableCategoryIcons/all.svg';
+import ApparelIcon from 'public/icons/adsTableCategoryIcons/apparelAndFootwear.svg';
+import ClaimIcon from 'public/icons/adsTableCategoryIcons/claim.svg';
+import ElectronicsIcon from 'public/icons/adsTableCategoryIcons/electronics.svg';
+import FirearmsIcon from 'public/icons/adsTableCategoryIcons/firearms.svg';
+import FitnessIcon from 'public/icons/adsTableCategoryIcons/fitnessItemsAndExercise.svg';
+import FoodIcon from 'public/icons/adsTableCategoryIcons/foodBeverages.svg';
+import HealthIcon from 'public/icons/adsTableCategoryIcons/healthAndPersonalCare.svg';
+import HomeOfficeIcon from 'public/icons/adsTableCategoryIcons/homeOfficeFurniture.svg';
+import HouseholdIcon from 'public/icons/adsTableCategoryIcons/householdItems.svg';
+import KnivesIcon from 'public/icons/adsTableCategoryIcons/knives.svg';
+import NutritionIcon from 'public/icons/adsTableCategoryIcons/nutritionAndWellness.svg';
+import OtherIcon from 'public/icons/adsTableCategoryIcons/otherItems.svg';
+import PetIcon from 'public/icons/adsTableCategoryIcons/petProducts.svg';
+import ServiceIcon from 'public/icons/adsTableCategoryIcons/services.svg';
+import SportIcon from 'public/icons/adsTableCategoryIcons/sportsAndOutdoor.svg';
+import ToolIcon from 'public/icons/adsTableCategoryIcons/toolsAndLandscaping.svg';
+import ToysIcon from 'public/icons/adsTableCategoryIcons/toysAndGames.svg';
 
 const data = [
     {
@@ -31,7 +50,7 @@ const data = [
         comments: 3,
     },
     {
-        id: 2,
+        id: 3,
         post: {
             img: '/pictures/mockImages/ad-table-image.png',
             text: 'React',
@@ -42,7 +61,7 @@ const data = [
         comments: 3,
     },
     {
-        id: 2,
+        id: 4,
         post: {
             img: '/pictures/mockImages/ad-table-image.png',
             text: 'Dance',
@@ -53,7 +72,7 @@ const data = [
         comments: 3,
     },
     {
-        id: 2,
+        id: 5,
         post: {
             img: '/pictures/mockImages/ad-table-image.png',
             text: 'Play Game',
@@ -64,7 +83,7 @@ const data = [
         comments: 3,
     },
     {
-        id: 2,
+        id: 6,
         post: {
             img: '/pictures/mockImages/ad-table-image.png',
             text: 'English',
@@ -75,7 +94,7 @@ const data = [
         comments: 3,
     },
     {
-        id: 2,
+        id: 7,
         post: {
             img: '/pictures/mockImages/ad-table-image.png',
             text: 'English',
@@ -87,12 +106,227 @@ const data = [
     },
 ];
 
+const categories = [
+    {
+        id: 'all',
+        name: 'All',
+        tooltip: 'Show all categories',
+        icon: <AllIcon />,
+    },
+    {
+        id: 'apparel',
+        name: 'Apparel & Footwear',
+        tooltip:
+            'Everyday clothing, activewear, luxury fashion, jewelry, accessories, shoes, etc.',
+        icon: <ApparelIcon />,
+    },
+    {
+        id: 'electronics',
+        name: 'Electronics',
+        tooltip: 'Electronic devices and gadgets',
+        icon: <ElectronicsIcon />,
+    },
+    {
+        id: 'firearms',
+        name: 'Firearms',
+        tooltip: 'Firearms and related items',
+        icon: <FirearmsIcon />,
+    },
+    {
+        id: 'fitness',
+        name: 'Fitness Items & Exercise',
+        tooltip: 'Exercise equipment and fitness accessories',
+        icon: <FitnessIcon />,
+    },
+    {
+        id: 'food',
+        name: 'Food & Beverages',
+        tooltip: 'Food items and drinks',
+        icon: <FoodIcon />,
+    },
+    {
+        id: 'household',
+        name: 'Household Items',
+        tooltip: 'Home essentials and household products',
+        icon: <HouseholdIcon />,
+    },
+    {
+        id: 'home-office',
+        name: 'Home/Office & Furniture',
+        tooltip: 'Furniture and office supplies',
+        icon: <HomeOfficeIcon />,
+    },
+    {
+        id: 'health',
+        name: 'Health & Personal Care',
+        tooltip: 'Health and wellness products',
+        icon: <HealthIcon />,
+    },
+    {
+        id: 'knives',
+        name: 'Knives',
+        tooltip: 'Knives and cutting tools',
+        icon: <KnivesIcon />,
+    },
+    {
+        id: 'nutrition',
+        name: 'Nutrition & Wellness',
+        tooltip: 'Supplements and wellness products',
+        icon: <NutritionIcon />,
+    },
+    {
+        id: 'other',
+        name: 'Other Items',
+        tooltip: 'Miscellaneous products',
+        icon: <OtherIcon />,
+    },
+    {
+        id: 'pet',
+        name: 'Pet Products',
+        tooltip: 'Pet supplies and accessories',
+        icon: <PetIcon />,
+    },
+    {
+        id: 'services',
+        name: 'Services',
+        tooltip: 'Professional services',
+        icon: <ServiceIcon />,
+    },
+    {
+        id: 'sports',
+        name: 'Sports & Outdoor',
+        tooltip: 'Sporting goods and outdoor equipment',
+        icon: <SportIcon />,
+    },
+    {
+        id: 'tools',
+        name: 'Tools & Landscaping',
+        tooltip: 'Tools and garden equipment',
+        icon: <ToolIcon />,
+    },
+    {
+        id: 'toys',
+        name: 'Toys & Game',
+        tooltip: 'Toys and gaming products',
+        icon: <ToysIcon />,
+    },
+];
+
 export default function AdsTable(): JSX.Element {
+    const [selectedCategory, setSelectedCategory] = useState('all');
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            const target = event.target as HTMLElement;
+            if (!target.closest('[data-dropdown-container]')) {
+                setIsDropdownOpen(false);
+            }
+        };
+
+        if (isDropdownOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isDropdownOpen]);
+
+    const handleCategorySelect = (categoryId: string) => {
+        setSelectedCategory(categoryId);
+        setIsDropdownOpen(false);
+    };
+
+    const getSelectedCategoryName = () => {
+        return (
+            categories.find((cat) => cat.id === selectedCategory)?.name || 'All'
+        );
+    };
+
     return (
         <div className="overflow-x-auto mt-10">
-            <h2 className={'text-[24px] font-semibold'}>Ads</h2>
+            <div className={'flex flex-row justify-between items-center'}>
+                <h2 className={'text-[24px] font-semibold'}>Ads</h2>
+                <div className="relative" data-dropdown-container>
+                    <p className="flex items-center gap-2 text-[#5D5F63]">
+                        Category:
+                        <button
+                            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                            className="flex items-center gap-1 hover:text-[#C32033] transition-colors"
+                        >
+                            <span className={'text-black'}>
+                                {getSelectedCategoryName()}
+                            </span>
+                            <svg
+                                width="12"
+                                height="12"
+                                viewBox="0 0 12 12"
+                                fill="none"
+                                className={`transform transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}
+                            >
+                                <path
+                                    d="M3 4.5L6 7.5L9 4.5"
+                                    stroke="currentColor"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
+                            </svg>
+                        </button>
+                    </p>
+
+                    {isDropdownOpen && (
+                        <div
+                            className="absolute right-0 top-full mt-2 rounded-lg shadow-lg z-10 w-[300px] lg:w-[600px] max-h-[440px] overflow-y-auto"
+                            style={{ background: '#F5F5F5F7' }}
+                        >
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
+                                {categories.map((category) => (
+                                    <div key={category.id} className="relative">
+                                        <button
+                                            onClick={() =>
+                                                handleCategorySelect(
+                                                    category.id,
+                                                )
+                                            }
+                                            onMouseEnter={() =>
+                                                setHoveredCategory(category.id)
+                                            }
+                                            onMouseLeave={() =>
+                                                setHoveredCategory(null)
+                                            }
+                                            className={`cursor-pointer flex gap-3 w-full text-left px-4 py-3 hover:bg-white/50 transition-colors ${
+                                                selectedCategory === category.id
+                                                    ? 'text-black font-medium'
+                                                    : 'text-[#5D5F63]'
+                                            }`}
+                                        >
+                                            {category.icon} {category.name}
+                                        </button>
+
+                                        {hoveredCategory === category.id &&
+                                            category.tooltip && (
+                                                <div className="flex gap-2 absolute top-full left-1/2 transform -translate-x-1/2 mt-2 bg-[#C5C5C5] text-white text-sm px-3 py-2 rounded-lg shadow-lg z-50 whitespace-normal max-w-[280px]">
+                                                    <span className="flex-shrink-0">
+                                                        <ClaimIcon />
+                                                    </span>
+                                                    {category.tooltip}
+                                                </div>
+                                            )}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
             <div className="overflow-x-auto mt-5 p-10 bg-white rounded-[10px]">
-                <table className="w-full border-collapse text-left">
+                <table
+                    className="w-full border-collapse text-left"
+                    style={{ boxShadow: '0px 10px 20px 0px #707DB01F' }}
+                >
                     <thead>
                         <tr>
                             <th className="py-3 pl-19 text-[#5D5F63] text-[14px] w-[150px]">

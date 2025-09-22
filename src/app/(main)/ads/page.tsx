@@ -19,7 +19,6 @@ export default function Ads(): JSX.Element {
             </div>
             <h2 className={'text-[24px] font-semibold mt-10'}>Insights</h2>
             <div className={'flex flex-col lg:flex-row mt-5 gap-5'}>
-                {/*<div className={'w-[780px] border h-[423px]'}></div>*/}
                 <LineChart />
                 <DoughnutChart />
             </div>

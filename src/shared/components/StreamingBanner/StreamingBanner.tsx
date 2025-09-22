@@ -5,7 +5,26 @@ import Button from '@/shared/components/Button/Button';
 
 import StreamIcon from 'public/icons/stream.svg';
 
-export default function StreamingBanner(): JSX.Element {
+interface StreamingBannerProps {
+    activeTab: string;
+    onTabChange: (tabId: string) => void;
+}
+
+export default function StreamingBanner({
+    activeTab,
+    onTabChange,
+}: StreamingBannerProps): JSX.Element {
+    const tabs = [
+        { id: 'all', label: 'All' },
+        { id: 'technology', label: 'Technology' },
+        { id: 'music', label: 'Music' },
+        { id: 'cooking', label: 'Cooking' },
+        { id: 'art', label: 'Art' },
+        { id: 'travel', label: 'Travel' },
+        { id: 'fitness', label: 'Fitness' },
+        { id: 'education', label: 'Education' },
+    ];
+
     return (
         <section className="w-full h-[600px] relative">
             <Image
@@ -16,6 +35,24 @@ export default function StreamingBanner(): JSX.Element {
                 priority
             />
             <div className="absolute inset-0">
+                <div className="absolute top-8 left-8 right-8">
+                    <div className="flex overflow-x-auto lg:overflow-x-visible scrollbar-hide hover:scrollbar-show scroll-smooth">
+                        {tabs.map((tab) => (
+                            <button
+                                key={tab.id}
+                                className={`px-4 py-2 font-semibold cursor-pointer whitespace-nowrap flex-shrink-0 lg:flex-shrink ${
+                                    activeTab === tab.id
+                                        ? 'text-white rounded-lg backdrop-blur-sm'
+                                        : 'text-white/70 hover:text-white'
+                                }`}
+                                onClick={() => onTabChange(tab.id)}
+                            >
+                                {tab.label}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
                 <div className="absolute bottom-12 left-8 right-8">
                     <Button icon={<StreamIcon />} text={'Live'} />
                     <p className="text-white text-2xl md:text-3xl font-bold mt-4">

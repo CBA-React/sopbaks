@@ -31,7 +31,7 @@ const recommendedChannels = [
 
 export default function Sidebar() {
     return (
-        <aside className="w-[265px] bg-gray-100 border-r border-gray-300">
+        <aside className="max-[1120px]:hidden w-[265px] bg-gray-100 border-r border-gray-300">
             <nav className="p-5">
                 <Logo className="w-[150px] h-auto mt-2" />
                 <Button

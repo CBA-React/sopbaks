@@ -6,9 +6,9 @@ import { Controller, useForm } from 'react-hook-form';
 import z from 'zod';
 
 import Button from '@/shared/components/Button/Button';
+import CitiesSelect from '@/shared/components/CitiesSelect/CitiesSelect';
 import Input from '@/shared/components/Input/Input';
 import PhoneInput from '@/shared/components/PhoneInput';
-import CustomSelect from '@/shared/components/Select/Select';
 import AvatarUpload from '@/shared/components/Settings/AvatarUpload';
 import { countries } from '@/shared/constants/countries';
 
@@ -175,7 +175,7 @@ export default function AccountDetails(): JSX.Element {
             </div>
             <div className={'flex flex-col lg:flex-row gap-3 items-center'}>
                 <p className="w-full lg:w-[20%]">Country</p>
-                <CustomSelect
+                <CitiesSelect
                     placeholder="Select a country"
                     options={countries}
                     registration={register('country')}

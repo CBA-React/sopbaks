@@ -5,26 +5,10 @@ import Image from 'next/image';
 
 import Button from '@/shared/components/Button/Button';
 import GraphIcon from '@/shared/components/GraphIcon/GraphIcon';
+import { categories } from '@/shared/constants/categories';
 import { formatNumber } from '@/utils/formatNumber';
 
-import AllIcon from 'public/icons/adsTableCategoryIcons/all.svg';
-import ApparelIcon from 'public/icons/adsTableCategoryIcons/apparelAndFootwear.svg';
 import ClaimIcon from 'public/icons/adsTableCategoryIcons/claim.svg';
-import ElectronicsIcon from 'public/icons/adsTableCategoryIcons/electronics.svg';
-import FirearmsIcon from 'public/icons/adsTableCategoryIcons/firearms.svg';
-import FitnessIcon from 'public/icons/adsTableCategoryIcons/fitnessItemsAndExercise.svg';
-import FoodIcon from 'public/icons/adsTableCategoryIcons/foodBeverages.svg';
-import HealthIcon from 'public/icons/adsTableCategoryIcons/healthAndPersonalCare.svg';
-import HomeOfficeIcon from 'public/icons/adsTableCategoryIcons/homeOfficeFurniture.svg';
-import HouseholdIcon from 'public/icons/adsTableCategoryIcons/householdItems.svg';
-import KnivesIcon from 'public/icons/adsTableCategoryIcons/knives.svg';
-import NutritionIcon from 'public/icons/adsTableCategoryIcons/nutritionAndWellness.svg';
-import OtherIcon from 'public/icons/adsTableCategoryIcons/otherItems.svg';
-import PetIcon from 'public/icons/adsTableCategoryIcons/petProducts.svg';
-import ServiceIcon from 'public/icons/adsTableCategoryIcons/services.svg';
-import SportIcon from 'public/icons/adsTableCategoryIcons/sportsAndOutdoor.svg';
-import ToolIcon from 'public/icons/adsTableCategoryIcons/toolsAndLandscaping.svg';
-import ToysIcon from 'public/icons/adsTableCategoryIcons/toysAndGames.svg';
 
 const data = [
     {
@@ -103,112 +87,6 @@ const data = [
         likes: 3732,
         impressions: { value: 3732, trend: 'down' as 'up' | 'down' },
         comments: 3,
-    },
-];
-
-const categories = [
-    {
-        id: 'all',
-        name: 'All',
-        tooltip: 'Show all categories',
-        icon: <AllIcon />,
-    },
-    {
-        id: 'apparel',
-        name: 'Apparel & Footwear',
-        tooltip:
-            'Everyday clothing, activewear, luxury fashion, jewelry, accessories, shoes, etc.',
-        icon: <ApparelIcon />,
-    },
-    {
-        id: 'electronics',
-        name: 'Electronics',
-        tooltip: 'Electronic devices and gadgets',
-        icon: <ElectronicsIcon />,
-    },
-    {
-        id: 'firearms',
-        name: 'Firearms',
-        tooltip: 'Firearms and related items',
-        icon: <FirearmsIcon />,
-    },
-    {
-        id: 'fitness',
-        name: 'Fitness Items & Exercise',
-        tooltip: 'Exercise equipment and fitness accessories',
-        icon: <FitnessIcon />,
-    },
-    {
-        id: 'food',
-        name: 'Food & Beverages',
-        tooltip: 'Food items and drinks',
-        icon: <FoodIcon />,
-    },
-    {
-        id: 'household',
-        name: 'Household Items',
-        tooltip: 'Home essentials and household products',
-        icon: <HouseholdIcon />,
-    },
-    {
-        id: 'home-office',
-        name: 'Home/Office & Furniture',
-        tooltip: 'Furniture and office supplies',
-        icon: <HomeOfficeIcon />,
-    },
-    {
-        id: 'health',
-        name: 'Health & Personal Care',
-        tooltip: 'Health and wellness products',
-        icon: <HealthIcon />,
-    },
-    {
-        id: 'knives',
-        name: 'Knives',
-        tooltip: 'Knives and cutting tools',
-        icon: <KnivesIcon />,
-    },
-    {
-        id: 'nutrition',
-        name: 'Nutrition & Wellness',
-        tooltip: 'Supplements and wellness products',
-        icon: <NutritionIcon />,
-    },
-    {
-        id: 'other',
-        name: 'Other Items',
-        tooltip: 'Miscellaneous products',
-        icon: <OtherIcon />,
-    },
-    {
-        id: 'pet',
-        name: 'Pet Products',
-        tooltip: 'Pet supplies and accessories',
-        icon: <PetIcon />,
-    },
-    {
-        id: 'services',
-        name: 'Services',
-        tooltip: 'Professional services',
-        icon: <ServiceIcon />,
-    },
-    {
-        id: 'sports',
-        name: 'Sports & Outdoor',
-        tooltip: 'Sporting goods and outdoor equipment',
-        icon: <SportIcon />,
-    },
-    {
-        id: 'tools',
-        name: 'Tools & Landscaping',
-        tooltip: 'Tools and garden equipment',
-        icon: <ToolIcon />,
-    },
-    {
-        id: 'toys',
-        name: 'Toys & Game',
-        tooltip: 'Toys and gaming products',
-        icon: <ToysIcon />,
     },
 ];
 

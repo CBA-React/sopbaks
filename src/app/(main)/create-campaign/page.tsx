@@ -8,6 +8,7 @@ import { z } from 'zod';
 
 import Button from '@/shared/components/Button/Button';
 import Checkbox from '@/shared/components/Checkbox/Checkbox';
+import { categories } from '@/shared/constants/categories';
 import { formatDate } from '@/utils/formatDate';
 
 import InfoIcon from 'public/icons/info.svg';
@@ -41,6 +42,8 @@ const campaignSchema = z
                 ];
                 return acceptedFormats.includes(file.type);
             }, 'Only .jpg, .jpeg, .png and .webp formats are supported'),
+
+        category: z.string().min(1, 'Please select a category'),
 
         campaignContent: z
             .string()
@@ -152,6 +155,10 @@ export default function CreateCampaign(): JSX.Element {
     const [isSelectOpen, setIsSelectOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState<string | null>(null);
 
+    const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
+    const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
+    const [selectedCategory, setSelectedCategory] = useState<string>('');
+
     const {
         register,
         handleSubmit,
@@ -169,6 +176,7 @@ export default function CreateCampaign(): JSX.Element {
             campaignName: '',
             visibility: '',
             campaignContent: '',
+            category: '',
             campaignGoal: '',
             monthlyBudget: '',
             targetNumber: 0,
@@ -186,6 +194,23 @@ export default function CreateCampaign(): JSX.Element {
             clearErrors('monthlyBudget');
         }
     }, [watchRunForFree, setValue, clearErrors]);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            const target = event.target as Element;
+            if (!target.closest('[data-category-dropdown]')) {
+                setIsCategoryDropdownOpen(false);
+            }
+        };
+
+        if (isCategoryDropdownOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isCategoryDropdownOpen]);
 
     const renderContentWithHashtags = (text: string) => {
         if (!text) return null;
@@ -293,6 +318,13 @@ export default function CreateCampaign(): JSX.Element {
             }
         };
 
+    const handleCategorySelect = (categoryId: string) => {
+        setSelectedCategory(categoryId);
+        setValue('category', categoryId);
+        setIsCategoryDropdownOpen(false);
+        trigger('category');
+    };
+
     return (
         <main className={'flex flex-col lg:flex-row gap-7'}>
             <section className={'border-[1px] border-[#E6E6E6] rounded-xl'}>
@@ -323,6 +355,114 @@ export default function CreateCampaign(): JSX.Element {
                             {errors.campaignName && (
                                 <p className="mt-1 text-sm text-red-600">
                                     {errors.campaignName.message}
+                                </p>
+                            )}
+                        </div>
+
+                        <div>
+                            <label
+                                htmlFor="category"
+                                className="block text-sm font-semibold text-[#404040] mb-4"
+                            >
+                                Category
+                            </label>
+                            <div className="relative" data-category-dropdown>
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        setIsCategoryDropdownOpen(
+                                            !isCategoryDropdownOpen,
+                                        )
+                                    }
+                                    className={`w-full px-3 py-2 pr-10 border ${
+                                        errors.category
+                                            ? 'border-red-500'
+                                            : 'border-[#C2C2C2]'
+                                    } rounded-[8px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-left bg-white flex items-center justify-between`}
+                                >
+                                    <span
+                                        className={
+                                            selectedCategory
+                                                ? 'text-black'
+                                                : 'text-gray-500'
+                                        }
+                                    >
+                                        {selectedCategory
+                                            ? categories.find(
+                                                  (cat) =>
+                                                      cat.id ===
+                                                      selectedCategory,
+                                              )?.name
+                                            : 'Choose category'}
+                                    </span>
+                                    <SelectArrow
+                                        className={`w-5 h-5 text-gray-400 transition-transform duration-200 ${isCategoryDropdownOpen ? 'rotate-180' : 'rotate-0'}`}
+                                    />
+                                </button>
+
+                                {isCategoryDropdownOpen && (
+                                    <div
+                                        className="absolute left-0 top-full mt-2 rounded-lg shadow-lg z-10 w-full max-h-[440px] overflow-y-auto"
+                                        style={{ background: '#F5F5F5F7' }}
+                                    >
+                                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
+                                            {categories.map((category) => (
+                                                <div
+                                                    key={category.id}
+                                                    className="relative"
+                                                >
+                                                    <button
+                                                        type="button"
+                                                        onClick={() =>
+                                                            handleCategorySelect(
+                                                                category.id,
+                                                            )
+                                                        }
+                                                        onMouseEnter={() =>
+                                                            setHoveredCategory(
+                                                                category.id,
+                                                            )
+                                                        }
+                                                        onMouseLeave={() =>
+                                                            setHoveredCategory(
+                                                                null,
+                                                            )
+                                                        }
+                                                        className={`cursor-pointer flex gap-3 w-full text-left px-4 py-3 hover:bg-white/50 transition-colors ${
+                                                            selectedCategory ===
+                                                            category.id
+                                                                ? 'text-black font-medium'
+                                                                : 'text-[#5D5F63]'
+                                                        }`}
+                                                    >
+                                                        {category.icon}{' '}
+                                                        {category.name}
+                                                    </button>
+
+                                                    {hoveredCategory ===
+                                                        category.id &&
+                                                        category.tooltip && (
+                                                            <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 bg-[#C5C5C5] text-white text-sm px-3 py-2 rounded-lg shadow-lg z-50 whitespace-normal max-w-[280px]">
+                                                                <InfoIcon className="flex-shrink-0 inline-block mr-2" />
+                                                                {
+                                                                    category.tooltip
+                                                                }
+                                                            </div>
+                                                        )}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                                <input
+                                    type="hidden"
+                                    {...register('category')}
+                                    value={selectedCategory}
+                                />
+                            </div>
+                            {errors.category && (
+                                <p className="mt-1 text-sm text-red-600">
+                                    {errors.category.message}
                                 </p>
                             )}
                         </div>

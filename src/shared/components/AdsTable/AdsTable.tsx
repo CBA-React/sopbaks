@@ -323,10 +323,7 @@ export default function AdsTable(): JSX.Element {
                 </div>
             </div>
             <div className="overflow-x-auto mt-5 p-10 bg-white rounded-[10px]">
-                <table
-                    className="w-full border-collapse text-left"
-                    style={{ boxShadow: '0px 10px 20px 0px #707DB01F' }}
-                >
+                <table className="w-full border-collapse text-left">
                     <thead>
                         <tr>
                             <th className="py-3 pl-19 text-[#5D5F63] text-[14px] w-[150px]">

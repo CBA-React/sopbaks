@@ -8,7 +8,7 @@ import LineChart from '@/shared/components/LineChart/LineChart';
 
 export default function Ads(): JSX.Element {
     return (
-        <main className={'max-w-[1100px]'}>
+        <main className={'w-[100%]'}>
             <div className="flex lg:justify-end">
                 <Link href="/create-campaign" className="w-full lg:w-auto">
                     <Button

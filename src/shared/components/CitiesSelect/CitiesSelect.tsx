@@ -8,7 +8,7 @@ interface SelectOption {
     label: string;
 }
 
-interface CustomSelectProps {
+interface CitiesSelectProps {
     placeholder?: string;
     registration: UseFormRegisterReturn<string>;
     error?: FieldError;
@@ -34,14 +34,14 @@ const ChevronDownIcon = ({ className = '' }: { className?: string }) => (
     </svg>
 );
 
-export default function CustomSelect({
+export default function CitiesSelect({
     placeholder = 'Select an option',
     registration,
     error,
     options = [],
     defaultValue = '',
     disabled = false,
-}: CustomSelectProps): JSX.Element {
+}: CitiesSelectProps): JSX.Element {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [selectedValue, setSelectedValue] = useState<string>(defaultValue);
     const [searchTerm, setSearchTerm] = useState<string>('');

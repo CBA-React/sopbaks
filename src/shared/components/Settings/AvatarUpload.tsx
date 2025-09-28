@@ -42,7 +42,7 @@ export default function AvatarUpload({
             onAvatarChange?.(file);
         };
 
-        reader.onerror = () => {
+        reader.onerror = (): void => {
             setIsUploading(false);
             alert('Error reading file');
         };

@@ -1,3 +1,4 @@
+import React, { JSX } from 'react';
 import Image from 'next/image';
 
 import Logo from 'public/icons/logo.svg';
@@ -7,7 +8,7 @@ export default function AuthLayout({
     children,
 }: {
     children: React.ReactNode;
-}) {
+}): JSX.Element {
     const bannerImage = '/pictures/signup-banner.png';
     const bannerAlt = 'Auth Banner';
 

@@ -1,16 +1,18 @@
 'use client';
 
+import React from 'react';
 import clsx from 'clsx';
 import Image from 'next/image';
-import { useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
+import { FaqIcon } from '@/shared/components/SIdebar/SidebarIcons/SidebarIcons';
 import Button from '../Button/Button';
 import { Search } from '../Search/Search';
 
 import AdsIcon from 'public/icons/ads.svg';
 import ArrowCircleDownIcon from 'public/icons/arrow-circle-down.svg';
 import HomeIcon from 'public/icons/home.svg';
-import InfoBurgerIcon from 'public/icons/info-burger.svg';
 import LogoutIcon from 'public/icons/logout.svg';
 import SearchOnPhoneIcon from 'public/icons/search-on-phone.svg';
 import StreamIcon from 'public/icons/stream.svg';
@@ -22,10 +24,10 @@ interface BurgerProps {
 }
 
 const FEEDS = [
-    { label: 'Home', icon: <HomeIcon /> },
-    { label: 'Discover', icon: <SearchOnPhoneIcon /> },
-    { label: 'Ads', icon: <AdsIcon /> },
-    { label: 'Following', icon: <UserIcon /> },
+    { label: 'Home', icon: HomeIcon, path: '/home' },
+    { label: 'Discover', icon: SearchOnPhoneIcon, path: '/discover' },
+    { label: 'Ads', icon: AdsIcon, path: '/ads' },
+    { label: 'Following', icon: UserIcon, path: '/following' },
 ];
 const USERS = [
     {
@@ -58,7 +60,7 @@ export const MenuOpen: React.FC<BurgerProps> = ({
     burgerActive,
     closeBurgerMenu,
 }: BurgerProps) => {
-    const [active, setActive] = useState<string>('Home');
+    const pathname = usePathname();
 
     return (
         <nav
@@ -89,27 +91,38 @@ export const MenuOpen: React.FC<BurgerProps> = ({
                 <div className="flex flex-col border-b border-b-[#d6d6d6] pb-4">
                     <p className="text-sm font-semibold mb-[17px]">New feeds</p>
                     <ul className="flex gap-3 text-[#868686] flex-col">
-                        {FEEDS.map((item) => (
-                            <li key={item.label}>
-                                <button
-                                    onClick={() => {
-                                        setActive(item.label);
-                                        closeBurgerMenu();
-                                    }}
-                                    className={`flex w-full items-center relative gap-5 px-4 py-[11px] cursor-pointer text-sm font-medium ${
-                                        active === item.label
-                                            ? 'text-[#c32033]'
-                                            : ''
-                                    }`}
-                                >
-                                    {active === item.label && (
-                                        <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-1.5 bg-[#c32033] h-8 rounded-r-[32px]" />
-                                    )}
-                                    {item.icon}
-                                    <p>{item.label}</p>
-                                </button>
-                            </li>
-                        ))}
+                        {FEEDS.map((item) => {
+                            const IconComponent = item.icon;
+                            const isActive = pathname === item.path;
+
+                            return (
+                                <li key={item.label}>
+                                    <Link href={item.path}>
+                                        <button
+                                            onClick={closeBurgerMenu}
+                                            className={`flex w-full items-center relative gap-5 px-4 py-[11px] cursor-pointer text-sm font-medium ${
+                                                isActive
+                                                    ? 'text-[#c32033]'
+                                                    : 'text-[#868686]'
+                                            }`}
+                                        >
+                                            {isActive && (
+                                                <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-1.5 bg-[#c32033] h-8 rounded-r-[32px]" />
+                                            )}
+                                            <IconComponent
+                                                color={
+                                                    isActive
+                                                        ? '#c32033'
+                                                        : '#868686'
+                                                }
+                                                className=""
+                                            />
+                                            <p>{item.label}</p>
+                                        </button>
+                                    </Link>
+                                </li>
+                            );
+                        })}
                     </ul>
                 </div>
 
@@ -148,12 +161,24 @@ export const MenuOpen: React.FC<BurgerProps> = ({
                         </li>
                     </ul>
                 </div>
-                <div className="flex items-center gap-4 cursor-pointer pl-4 py-[11px]">
-                    <InfoBurgerIcon />
-                    <p className="text-[#868686] text-sm font-medium">
-                        Help&FAQ
-                    </p>
-                </div>
+                <Link href="/faq">
+                    <div
+                        onClick={closeBurgerMenu}
+                        className={`flex items-center gap-4 cursor-pointer pl-4 py-[11px] relative ${
+                            pathname === '/faq'
+                                ? 'text-[#c32033]'
+                                : 'text-[#868686]'
+                        }`}
+                    >
+                        {pathname === '/faq' && (
+                            <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-1.5 bg-[#c32033] h-8 rounded-r-[32px]" />
+                        )}
+                        <FaqIcon
+                            color={pathname === '/faq' ? '#c32033' : '#868686'}
+                        />
+                        <p className="text-sm font-medium">Help&FAQ</p>
+                    </div>
+                </Link>
             </div>
             <div className="absolute bottom-[-1px] left-4 bg-white w-[calc(100%-32px)] py-4">
                 <Button

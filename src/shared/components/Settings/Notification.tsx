@@ -1,4 +1,4 @@
-import { JSX, useState } from 'react';
+import { JSX } from 'react';
 
 import Switch from '@/shared/components/Switch/Switch';
 

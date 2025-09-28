@@ -1,8 +1,13 @@
+import { JSX } from 'react';
 import Image from 'next/image';
 
 import OnlineIcon from 'public/icons/online.svg';
 
-export default function RecommendedChanelItem({ avatar, name, status }) {
+export default function RecommendedChanelItem({
+    avatar,
+    name,
+    status,
+}): JSX.Element {
     return (
         <div className="flex flex-row items-center justify-between w-full">
             <div className="flex flex-row items-center gap-[10px]">

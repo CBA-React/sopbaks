@@ -15,7 +15,7 @@ export default function Switch({
 }: Props): JSX.Element {
     const [isEnabled, setIsEnabled] = useState(enabled);
 
-    const handleToggle = () => {
+    const handleToggle = (): void => {
         if (disabled) return;
         const newState = !isEnabled;
         setIsEnabled(newState);

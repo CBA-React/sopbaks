@@ -1,8 +1,9 @@
-import { JSX } from 'react';
+import React, { JSX } from 'react';
+
+import ProfileImageUpload from '@/modules/Settings/ProfileImageUpload';
 
 import SettingsField from './SettingsField';
 import SettingsSection from './SettingsSection';
-import ProfileImageUpload from '@/modules/Settings/ProfileImageUpload';
 
 interface MainInfoSectionProps {
     isEditing: boolean;

@@ -9,6 +9,7 @@ import Divider from '@/shared/components/Divider/Divider';
 import RecommendedChanelItem from '@/shared/components/RecommendedChanelItem/RecommendedChanelItem';
 import {
     AdsIcon,
+    FaqIcon,
     FollowingIcon,
     HomeIcon,
     SearchIcon,
@@ -53,7 +54,7 @@ export default function Sidebar(): JSX.Element {
         }`;
     };
 
-    const getIconColor = (path: string) => {
+    const getIconColor = (path: string): string => {
         return pathname === path ? '#C32033' : '#868686';
     };
 
@@ -66,7 +67,7 @@ export default function Sidebar(): JSX.Element {
                     icon={<StreamIcon />}
                     className={'w-full my-[32px]'}
                 />
-                <p className={'text-[14px] font-semibold'}>New feeds</p>
+                <p className={'text-[14px] font-semibold mb-3'}>New feeds</p>
                 <ul>
                     <Link href={'/home'}>
                         <li className={getItemClasses('/home')}>
@@ -117,6 +118,14 @@ export default function Sidebar(): JSX.Element {
                     </li>
                 </ul>
                 <Divider className={'mt-5'} />
+                <ul className={'mt-4'}>
+                    <Link href={'/faq'}>
+                        <li className={getItemClasses('/faq')}>
+                            <FaqIcon color={getIconColor('/faq')} />
+                            Help & FAQ
+                        </li>
+                    </Link>
+                </ul>
             </nav>
         </aside>
     );

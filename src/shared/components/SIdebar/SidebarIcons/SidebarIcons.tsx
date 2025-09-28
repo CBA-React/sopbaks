@@ -125,3 +125,45 @@ export function SearchIcon({
         </svg>
     );
 }
+
+export function FaqIcon({ className, color = '#AAAAAA' }: Props): JSX.Element {
+    return (
+        <svg
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className={className}
+        >
+            <g clipPath="url(#clip0_235_868)">
+                <path
+                    d="M10.0003 18.3334C14.6027 18.3334 18.3337 14.6025 18.3337 10.0001C18.3337 5.39771 14.6027 1.66675 10.0003 1.66675C5.39795 1.66675 1.66699 5.39771 1.66699 10.0001C1.66699 14.6025 5.39795 18.3334 10.0003 18.3334Z"
+                    stroke={color}
+                    strokeWidth="1.66667"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                />
+                <path
+                    d="M10 6.66663V9.99996"
+                    stroke={color}
+                    strokeWidth="1.66667"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                />
+                <path
+                    d="M10 13.3334H10.0083"
+                    stroke={color}
+                    strokeWidth="1.66667"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                />
+            </g>
+            <defs>
+                <clipPath id="clip0_235_868">
+                    <rect width="20" height="20" fill="white" />
+                </clipPath>
+            </defs>
+        </svg>
+    );
+}

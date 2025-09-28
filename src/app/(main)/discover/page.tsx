@@ -1,36 +1,23 @@
 import { JSX } from 'react';
 
 import DiscoverBanner from '@/shared/components/DiscoverBanner/DiscoverBanner';
-import Tabs from '@/shared/components/Tabs/Tabs';
-import BlogItem from '@/shared/components/BlogItem/BlogItem';
-import StreamItem from '@/shared/components/StreamItem/StreamItem';
+import DiscoverPageTabs from '@/shared/components/DiscoverPageTabs/DiscoverPageTabs';
 import TopCreators from '@/shared/components/TopCreators/TopCreators';
 
 export default function Discover(): JSX.Element {
     return (
-        <main className={'max-w-[1100px]'}>
+        <main className={'w-[100%]'}>
             <DiscoverBanner />
-            <div className={'flex flex-row justify-between'}>
-                <Tabs />
-                <TopCreators />
+            <div
+                className={'flex flex-col-reverse lg:flex-row justify-between'}
+            >
+                <div className="flex-1 min-w-0">
+                    <DiscoverPageTabs />
+                </div>
+                <div className="lg:flex-shrink-0 lg:w-[348px] mt-8">
+                    <TopCreators />
+                </div>
             </div>
         </main>
     );
 }
-
-{/*<StreamItem*/}
-{/*    postTitle={'Real Estate'}*/}
-{/*    postImage={'/pictures/mockImages/realEstate.png'}*/}
-{/*    authorTitle={'Capital Funding Group'}*/}
-{/*    authorName={'Guy Hawkins '}*/}
-{/*    authorAvatar={'/pictures/mockImages/avatar.png'}*/}
-{/*/>*/}
-{/*<BlogItem*/}
-{/*    postImage={'/pictures/mockImages/realEstate.png'}*/}
-{/*    tags={['Italian', 'Food', 'Pasta']}*/}
-{/*    postTitle={'I will make Italian Pasta'}*/}
-{/*    authorName={'Joe Dohn'}*/}
-{/*    postedTime={'2d'}*/}
-{/*    authorAvatar={'/pictures/mockImages/avatar.png'}*/}
-{/*    viewsCount={'15k'}*/}
-{/*/>*/}

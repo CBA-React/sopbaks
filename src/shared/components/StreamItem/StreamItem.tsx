@@ -14,7 +14,7 @@ interface StreamItemProps {
     postImage: string;
     postTitle: string;
     authorAvatar: string;
-    authorTitle: string;
+    authorTitle?: string;
     authorName: string;
     isVerified?: boolean;
 }
@@ -29,42 +29,37 @@ export default function StreamItem({
 }: StreamItemProps): JSX.Element {
     return (
         <div
-            className="w-[354px] bg-white rounded-[14px]"
+            className="w-full max-w-[354px] bg-white rounded-[14px]"
             style={{ boxShadow: '0px 4.8px 60px 0px #00000014' }}
         >
-            {/* Верхняя картинка */}
             <div className="w-full h-[236px] relative">
                 <Image
                     src={postImage}
                     alt={postTitle}
                     fill
-                    className="object-contain rounded-tr-[12px] rounded-tl-[12px]"
+                    className="object-cover rounded-tr-[12px] rounded-tl-[12px]"
                 />
             </div>
 
-            {/* Заголовок поста */}
-            <div className="w-full max-w-[384px] p-5">
+            <div className="w-full p-5">
                 <h2 className="text-[20px] font-bold mb-4">{postTitle}</h2>
 
-                {/* Блок автора */}
                 <div className="flex items-center gap-4">
-                    {/* Аватар */}
-                    <div className="w-12 h-12 relative rounded-full overflow-hidden">
+                    <div className="w-12 h-12 relative rounded-full overflow-hidden flex-shrink-0">
                         <Image
                             src={authorAvatar}
                             alt={authorName}
-                            layout="fill"
-                            objectFit="cover"
+                            fill
+                            className="object-cover"
                         />
                     </div>
 
-                    {/* Имя и должность */}
-                    <div className="flex flex-col">
+                    <div className="flex flex-col min-w-0 flex-1">
                         <span className="text-sm font-semibold inline-flex items-center gap-3">
                             {authorTitle}
                             {isVerified && <VerifiedIcon />}
                         </span>
-                        <span className="text-gray-500 text-sm">
+                        <span className="text-gray-500 text-sm truncate">
                             {authorName}
                         </span>
                     </div>
@@ -83,7 +78,7 @@ export default function StreamItem({
                         }
                     >
                         <MarkIcon />
-                        <p>4.2K watching</p>
+                        <p className="text-sm">4.2K watching</p>
                     </div>
                 </div>
             </div>

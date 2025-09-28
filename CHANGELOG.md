@@ -6,3 +6,4 @@
 ## settings page - ui done
 ## streaming options page - ui done
 ## create campaign page - ui done
+## discover page - ui done

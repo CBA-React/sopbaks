@@ -59,7 +59,7 @@ const contentFromAPI = [
     },
 ];
 
-export default function Tabs(): JSX.Element {
+export default function DiscoverPageTabs(): JSX.Element {
     const tabs = [
         { id: 'all', label: 'All' },
         { id: 'technology', label: 'Technology' },
@@ -78,12 +78,12 @@ export default function Tabs(): JSX.Element {
     );
 
     return (
-        <article className={'w-[728px]'}>
-            <div className="flex mt-5">
+        <article className={'w-full mx-auto px-4'}>
+            <div className="flex mt-5 overflow-x-auto lg:overflow-x-visible scrollbar-hide hover:scrollbar-show scroll-smooth relative z-10">
                 {tabs.map((tab) => (
                     <button
                         key={tab.id}
-                        className={`px-4 py-2 -mb-px font-semibold cursor-pointer ${
+                        className={`px-4 py-2 font-semibold cursor-pointer whitespace-nowrap flex-shrink-0 lg:flex-shrink ${
                             activeTab === tab.id
                                 ? 'text-[#C32033]'
                                 : 'text-[#868686]'
@@ -95,10 +95,16 @@ export default function Tabs(): JSX.Element {
                 ))}
             </div>
 
-            <div className="flex flex-wrap gap-3 mt-6">
+            <div className="flex flex-row flex-wrap gap-4 mt-6 justify-items-center">
                 {activeContent.map((item) => {
                     if (item.type === 'stream') {
-                        return <StreamItem {...item.data} key={item.id} />;
+                        return (
+                            <StreamItem
+                                {...item.data}
+                                key={item.id}
+                                isVerified={true}
+                            />
+                        );
                     } else if (item.type === 'blog') {
                         return <BlogItem {...item.data} key={item.id} />;
                     }

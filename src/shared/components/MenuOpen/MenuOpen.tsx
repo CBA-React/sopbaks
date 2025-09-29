@@ -65,7 +65,7 @@ export const MenuOpen: React.FC<BurgerProps> = ({
     return (
         <nav
             className={clsx(
-                'bg-white fixed top-0 left-0 z-100 mt-[78px] h-[calc(100svh-73px)] w-full flex-col justify-between p-4  transition-transform duration-300',
+                'bg-white fixed top-0 left-0 z-1000 h-dvh w-full flex-col justify-between pt-[100px] p-4 transition-transform duration-300',
                 burgerActive ? 'translate-x-0' : '-translate-x-full',
             )}
         >
@@ -87,7 +87,7 @@ export const MenuOpen: React.FC<BurgerProps> = ({
             </div>
             <Search className="my-8" />
 
-            <div className="overflow-y-auto h-[calc(100svh-340px)]">
+            <div className="overflow-y-auto h-[calc(100dvh-340px)]">
                 <div className="flex flex-col border-b border-b-[#d6d6d6] pb-4">
                     <p className="text-sm font-semibold mb-[17px]">New feeds</p>
                     <ul className="flex gap-3 text-[#868686] flex-col">
@@ -180,7 +180,7 @@ export const MenuOpen: React.FC<BurgerProps> = ({
                     </div>
                 </Link>
             </div>
-            <div className="absolute bottom-[-1px] left-4 bg-white w-[calc(100%-32px)] py-4">
+            <div className="absolute bottom-0 left-4 bg-white w-[calc(100%-32px)] py-4">
                 <Button
                     text="Start Streaming"
                     className="w-full justify-center h-11"

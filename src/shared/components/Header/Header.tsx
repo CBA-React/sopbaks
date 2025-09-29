@@ -1,7 +1,7 @@
 'use client';
 
-import Image from 'next/image';
 import { JSX, useRef, useState } from 'react';
+import Image from 'next/image';
 
 import NotificationIcon from '@/shared/components/NotificationIcon/NotificationIIcon';
 import { Burger } from '../Burger/Burger';
@@ -25,7 +25,7 @@ export default function Header(): JSX.Element {
 
     const avatarRef = useRef<HTMLDivElement>(null);
 
-    const clickBurger = () => {
+    const clickBurger = (): void => {
         setBurgerActive((prev) => !prev);
         document.body.classList.toggle('overflow-hidden');
     };

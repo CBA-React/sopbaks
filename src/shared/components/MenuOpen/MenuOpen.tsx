@@ -1,10 +1,10 @@
 'use client';
 
+import React from 'react';
 import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import React from 'react';
 
 import { FaqIcon } from '@/shared/components/SIdebar/SidebarIcons/SidebarIcons';
 import Button from '../Button/Button';

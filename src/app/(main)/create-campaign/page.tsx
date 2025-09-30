@@ -153,8 +153,7 @@ const postedDate = 'now';
 
 export default function CreateCampaign(): JSX.Element {
     const [isSelectOpen, setIsSelectOpen] = useState(false);
-    const [previewImage, setPreviewImage] = useState<string | null>(null);
-
+    const [previewImages, setPreviewImages] = useState<string[]>([]);
     const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
     const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
     const [selectedCategory, setSelectedCategory] = useState<string>('');
@@ -231,29 +230,44 @@ export default function CreateCampaign(): JSX.Element {
     const handleImageChange = async (
         e: React.ChangeEvent<HTMLInputElement>,
     ) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            if (!file.type.startsWith('image/')) {
-                alert('Please select an image file');
-                return;
-            }
+        const files = e.target.files;
+        if (files) {
+            const newImages: string[] = [];
 
-            if (file.size > 3 * 1024 * 1024) {
-                alert('Image size must be less than 3MB');
-                e.target.value = '';
-                return;
-            }
+            Array.from(files).forEach((file) => {
+                if (!file.type.startsWith('image/')) {
+                    alert('Please select only image files');
+                    return;
+                }
 
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setPreviewImage(reader.result as string);
-            };
-            reader.readAsDataURL(file);
+                if (file.size > 5 * 1024 * 1024) {
+                    alert(`${file.name} is too large. Max size is 5MB`);
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    newImages.push(reader.result as string);
+                    if (
+                        newImages.length ===
+                        Array.from(files).filter(
+                            (f) =>
+                                f.type.startsWith('image/') &&
+                                f.size <= 5 * 1024 * 1024,
+                        ).length
+                    ) {
+                        setPreviewImages([...previewImages, ...newImages]);
+                    }
+                };
+                reader.readAsDataURL(file);
+            });
 
             await trigger('campaignImage');
-        } else {
-            setPreviewImage(null);
         }
+    };
+
+    const removeImage = (index: number) => {
+        setPreviewImages(previewImages.filter((_, i) => i !== index));
     };
 
     const onSubmit = async (data: CampaignFormData) => {
@@ -526,118 +540,85 @@ export default function CreateCampaign(): JSX.Element {
                                         htmlFor="campaignImage"
                                         className="block text-sm font-medium text-gray-600 mb-2"
                                     >
-                                        Image (Optional)
+                                        Images (Optional)
                                     </label>
 
-                                    <div className="flex gap-4">
-                                        {previewImage && (
-                                            <div className="flex-shrink-0">
-                                                <div className="relative">
-                                                    <img
-                                                        src={previewImage}
-                                                        alt="Campaign preview"
-                                                        className="w-[256px] h-fit object-cover rounded-[8px]"
-                                                    />
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => {
-                                                            setPreviewImage(
-                                                                null,
-                                                            );
-                                                            setValue(
-                                                                'campaignImage',
-                                                                null,
-                                                            );
-                                                        }}
-                                                        className="absolute -top-2 -right-2 bg-gray-600 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-gray-700 transition-colors"
+                                    {previewImages.length > 0 && (
+                                        <div className="flex flex-wrap gap-3 mb-3">
+                                            {previewImages.map(
+                                                (image, index) => (
+                                                    <div
+                                                        key={index}
+                                                        className="relative"
                                                     >
-                                                        <svg
-                                                            className="w-3 h-3"
-                                                            fill="none"
-                                                            stroke="currentColor"
-                                                            viewBox="0 0 24 24"
+                                                        <img
+                                                            src={image}
+                                                            alt={`Preview ${index + 1}`}
+                                                            className="w-[120px] h-[120px] object-cover rounded-[8px]"
+                                                        />
+                                                        <button
+                                                            type="button"
+                                                            onClick={() =>
+                                                                removeImage(
+                                                                    index,
+                                                                )
+                                                            }
+                                                            className="absolute -top-2 -right-2 bg-gray-600 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-gray-700 transition-colors"
                                                         >
-                                                            <path
-                                                                strokeLinecap="round"
-                                                                strokeLinejoin="round"
-                                                                strokeWidth={2}
-                                                                d="M6 18L18 6M6 6l12 12"
-                                                            />
-                                                        </svg>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        )}
-                                        <div className="flex-1">
-                                            {!previewImage ? (
-                                                <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center bg-white hover:border-gray-400 transition-colors">
-                                                    <div className="flex flex-col items-center space-y-2">
-                                                        <svg
-                                                            className="w-8 h-8 text-[#C32033]"
-                                                            fill="none"
-                                                            stroke="currentColor"
-                                                            viewBox="0 0 24 24"
-                                                        >
-                                                            <path
-                                                                strokeLinecap="round"
-                                                                strokeLinejoin="round"
-                                                                strokeWidth={2}
-                                                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                                                            />
-                                                        </svg>
-                                                        <div className="text-sm">
-                                                            <label
-                                                                htmlFor="campaignImage"
-                                                                className="text-[#C32033] font-medium cursor-pointer hover:text-red-600"
+                                                            <svg
+                                                                className="w-3 h-3"
+                                                                fill="none"
+                                                                stroke="currentColor"
+                                                                viewBox="0 0 24 24"
                                                             >
-                                                                Link
-                                                            </label>
-                                                            <span className="text-gray-600">
-                                                                {' '}
-                                                                or drag image
-                                                            </span>
-                                                        </div>
-                                                        <p className="text-xs text-gray-500">
-                                                            PDF, PNG or JPG
-                                                            (max. 3MB)
-                                                        </p>
+                                                                <path
+                                                                    strokeLinecap="round"
+                                                                    strokeLinejoin="round"
+                                                                    strokeWidth={
+                                                                        2
+                                                                    }
+                                                                    d="M6 18L18 6M6 6l12 12"
+                                                                />
+                                                            </svg>
+                                                        </button>
                                                     </div>
-                                                </div>
-                                            ) : (
-                                                <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 bg-white">
-                                                    <div className="text-center">
-                                                        <div className="text-sm text-gray-600 mb-2">
-                                                            Image selected
-                                                        </div>
-                                                        <div className="flex justify-center gap-2">
-                                                            <label
-                                                                htmlFor="campaignImage"
-                                                                className="text-sm text-red-600 hover:text-red-800 cursor-pointer"
-                                                            >
-                                                                Replace Image
-                                                            </label>
-                                                            <span className="text-gray-400">
-                                                                |
-                                                            </span>
-                                                            <button
-                                                                type="button"
-                                                                onClick={() => {
-                                                                    setPreviewImage(
-                                                                        null,
-                                                                    );
-                                                                    setValue(
-                                                                        'campaignImage',
-                                                                        null,
-                                                                    );
-                                                                }}
-                                                                className="text-sm text-red-600 hover:text-red-800"
-                                                            >
-                                                                Remove
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                ),
                                             )}
+                                        </div>
+                                    )}
+
+                                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center bg-white hover:border-gray-400 transition-colors">
+                                        <div className="flex flex-col items-center space-y-2">
+                                            <svg
+                                                className="w-8 h-8 text-[#C32033]"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth={2}
+                                                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                                                />
+                                            </svg>
+                                            <div className="text-sm">
+                                                <label
+                                                    htmlFor="campaignImage"
+                                                    className="text-[#C32033] font-medium cursor-pointer hover:text-red-600"
+                                                >
+                                                    {previewImages.length > 0
+                                                        ? 'Add more images'
+                                                        : 'Upload images'}
+                                                </label>
+                                                <span className="text-gray-600">
+                                                    {' '}
+                                                    or drag images
+                                                </span>
+                                            </div>
+                                            <p className="text-xs text-gray-500">
+                                                PNG or JPG (max. 5MB each)
+                                            </p>
                                         </div>
                                     </div>
 
@@ -645,6 +626,7 @@ export default function CreateCampaign(): JSX.Element {
                                         id="campaignImage"
                                         type="file"
                                         accept="image/*"
+                                        multiple
                                         {...register('campaignImage')}
                                         onChange={handleImageChange}
                                         className="hidden"
@@ -953,7 +935,7 @@ export default function CreateCampaign(): JSX.Element {
                     <div className={'flex-1'}>
                         <div className={'flex gap-4 flex-col'}>
                             <div
-                                className={`text-[#404040] whitespace-pre-wrap break-words ${previewImage ? 'flex-1' : 'w-full'}`}
+                                className={`text-[#404040] whitespace-pre-wrap break-words ${previewImages ? 'flex-1' : 'w-full'}`}
                             >
                                 {watchedContent ? (
                                     renderContentWithHashtags(watchedContent)
@@ -964,15 +946,22 @@ export default function CreateCampaign(): JSX.Element {
                                     </span>
                                 )}
                             </div>
-                            {previewImage && (
-                                <div className={'flex-shrink-0 items-center'}>
-                                    <img
-                                        src={previewImage}
-                                        alt="Campaign preview"
-                                        className={
-                                            'w-[300px] h-fit object-cover rounded-[8px]'
-                                        }
-                                    />
+                            {previewImages.length > 0 && (
+                                <div
+                                    className={
+                                        'flex flex-wrap gap-2 items-center'
+                                    }
+                                >
+                                    {previewImages.map((image, index) => (
+                                        <img
+                                            key={index}
+                                            src={image}
+                                            alt={`Campaign preview ${index + 1}`}
+                                            className={
+                                                'w-[140px] h-[140px] object-cover rounded-[8px]'
+                                            }
+                                        />
+                                    ))}
                                 </div>
                             )}
                         </div>

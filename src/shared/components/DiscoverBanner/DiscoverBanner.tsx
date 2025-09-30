@@ -1,8 +1,13 @@
-import { JSX } from 'react';
+'use client';
+
+import { JSX, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import CreateNewPostModal from '@/shared/components/CreatePostModal/CreatePostModal';
+
 export default function DiscoverBanner(): JSX.Element {
+    const [isModalOpen, setIsModalOpen] = useState(false);
     return (
         <div className="w-full h-[300px] relative rounded-2xl overflow-hidden">
             <Image
@@ -24,7 +29,7 @@ export default function DiscoverBanner(): JSX.Element {
                     <Link href={'#'}>
                         <button
                             className={
-                                'px-[30px] py-[12px] bg-white text-[#C32033] font-bold rounded-[12px]'
+                                'px-[30px] py-[12px] bg-white text-[#C32033] font-bold rounded-[12px] cursor-pointer'
                             }
                         >
                             Go Live
@@ -32,8 +37,9 @@ export default function DiscoverBanner(): JSX.Element {
                     </Link>
                     <Link href={'#'}>
                         <button
+                            onClick={() => setIsModalOpen(true)}
                             className={
-                                'px-[30px] py-[12px] bg-transparent text-white border-[1px] border-white rounded-[12px]'
+                                'px-[30px] py-[12px] bg-transparent text-white border-[1px] border-white rounded-[12px] cursor-pointer'
                             }
                         >
                             Create Post
@@ -41,6 +47,10 @@ export default function DiscoverBanner(): JSX.Element {
                     </Link>
                 </div>
             </div>
+            <CreateNewPostModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+            />
         </div>
     );
 }

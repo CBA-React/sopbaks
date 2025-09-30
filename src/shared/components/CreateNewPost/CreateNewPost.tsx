@@ -10,6 +10,7 @@ import {
     HashtagIcon,
     ImageIcon,
 } from '@/shared/components/CreateNewPost/Icons';
+import CreateNewPostModal from '@/shared/components/CreatePostModal/CreatePostModal';
 
 const visibilityOptions = [
     { value: 'everyone', label: 'Everyone' },
@@ -39,6 +40,8 @@ export default function CreateNewPost(): JSX.Element {
     const emojiRef = useRef<HTMLDivElement>(null);
     const hashtagRef = useRef<HTMLDivElement>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -113,6 +116,7 @@ export default function CreateNewPost(): JSX.Element {
         <section className={'mb-4'}>
             <p className={'text-[24px] font-semibold mb-4'}>Post something</p>
             <div
+                onClick={() => setIsModalOpen(true)}
                 className="bg-white rounded-[20px] p-6"
                 style={{ boxShadow: '0px 4px 50px 0px #0000000F' }}
             >
@@ -126,12 +130,14 @@ export default function CreateNewPost(): JSX.Element {
                             className="object-cover"
                         />
                     </div>
-                    <textarea
-                        value={postContent}
-                        onChange={(e) => setPostContent(e.target.value)}
-                        placeholder="Type something"
-                        className="flex-1 outline-none resize-none text-gray-500 placeholder-gray-400 min-h-[60px]"
-                    />
+                    <p className={'text-gray-500'}>Type something</p>
+                    {/*<textarea*/}
+                    {/*    value={postContent}*/}
+                    {/*    onChange={(e) => setPostContent(e.target.value)}*/}
+                    {/*    placeholder="Type something"*/}
+                    {/*    className="flex-1 outline-none resize-none text-gray-500 placeholder-gray-400 min-h-[60px]"*/}
+                    {/*    disabled*/}
+                    {/*/>*/}
                 </div>
 
                 {uploadedImages.length > 0 && (
@@ -155,7 +161,9 @@ export default function CreateNewPost(): JSX.Element {
                     </div>
                 )}
 
-                <div className="flex flex-col lg:flex-row items-center justify-between pt-4 border-t border-gray-200">
+                <div
+                    className="flex flex-col lg:flex-row items-center justify-between pt-4 border-t border-gray-200"
+                >
                     <div className="flex items-center gap-4">
                         <div className="relative" ref={emojiRef}>
                             <button
@@ -182,7 +190,7 @@ export default function CreateNewPost(): JSX.Element {
 
                         <div className="relative" ref={hashtagRef}>
                             <button
-                                onClick={() => setIsHashtagOpen(!isHashtagOpen)}
+                                // onClick={() => setIsHashtagOpen(!isHashtagOpen)}
                                 className="text-gray-500 hover:text-gray-700 transition-colors"
                             >
                                 <HashtagIcon />
@@ -217,9 +225,10 @@ export default function CreateNewPost(): JSX.Element {
                             accept="image/*"
                             onChange={handleImageUpload}
                             className="hidden"
+                            disabled
                         />
                         <button
-                            onClick={() => fileInputRef.current?.click()}
+                            // onClick={() => fileInputRef.current?.click()}
                             className="text-gray-500 hover:text-gray-700 transition-colors"
                         >
                             <ImageIcon />
@@ -227,9 +236,9 @@ export default function CreateNewPost(): JSX.Element {
 
                         <div className="relative ml-2" ref={dropdownRef}>
                             <button
-                                onClick={() =>
-                                    setIsDropdownOpen(!isDropdownOpen)
-                                }
+                                // onClick={() =>
+                                //     setIsDropdownOpen(!isDropdownOpen)
+                                // }
                                 className="flex items-center gap-1 text-gray-600 hover:text-gray-800 transition-colors"
                             >
                                 <span className="text-sm font-medium">
@@ -266,6 +275,10 @@ export default function CreateNewPost(): JSX.Element {
                     </button>
                 </div>
             </div>
+            <CreateNewPostModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+            />
         </section>
     );
 }

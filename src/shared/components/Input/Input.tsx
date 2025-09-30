@@ -1,5 +1,6 @@
 'use client';
 
+import { JSX } from 'react';
 import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 
 type FormInputProps = {
@@ -14,7 +15,7 @@ export default function Input({
     placeholder,
     registration,
     error,
-}: FormInputProps) {
+}: FormInputProps): JSX.Element {
     if (type === 'textarea') {
         return (
             <div className="flex flex-col w-full">

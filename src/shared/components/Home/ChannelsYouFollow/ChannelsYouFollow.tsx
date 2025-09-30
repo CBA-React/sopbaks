@@ -65,29 +65,29 @@ const users = [
     },
 ];
 
-function AddChannelButton(): JSX.Element {
-    return (
-        <div className="flex flex-col items-center gap-2 cursor-pointer group">
-            <div className="w-[80px] h-[80px] bg-[#C32033] rounded-full flex items-center justify-center hover:bg-[#a01a2a] transition-colors">
-                <svg
-                    width="32"
-                    height="32"
-                    viewBox="0 0 32 32"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path
-                        d="M16 8V24M8 16H24"
-                        stroke="white"
-                        strokeWidth="3"
-                        strokeLinecap="round"
-                    />
-                </svg>
-            </div>
-            <p className="font-semibold text-center text-sm">Add Channel</p>
-        </div>
-    );
-}
+// function AddChannelButton(): JSX.Element {
+//     return (
+//         <div className="flex flex-col items-center gap-2 cursor-pointer group">
+//             <div className="w-[80px] h-[80px] bg-[#C32033] rounded-full flex items-center justify-center hover:bg-[#a01a2a] transition-colors">
+//                 <svg
+//                     width="32"
+//                     height="32"
+//                     viewBox="0 0 32 32"
+//                     fill="none"
+//                     xmlns="http://www.w3.org/2000/svg"
+//                 >
+//                     <path
+//                         d="M16 8V24M8 16H24"
+//                         stroke="white"
+//                         strokeWidth="3"
+//                         strokeLinecap="round"
+//                     />
+//                 </svg>
+//             </div>
+//             <p className="font-semibold text-center text-sm">Add Channel</p>
+//         </div>
+//     );
+// }
 
 export default function ChannelsYouFollow(): JSX.Element {
     return (
@@ -102,7 +102,6 @@ export default function ChannelsYouFollow(): JSX.Element {
                 }
             >
                 <div className={'flex flex-row gap-10 px-5 py-10 min-w-max'}>
-                    <AddChannelButton />
                     {users.map((user) => (
                         <FollowedChannel
                             key={user.id}

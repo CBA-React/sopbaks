@@ -1,4 +1,5 @@
 import { JSX } from 'react';
+import Link from 'next/link';
 
 import CreateNewPost from '@/shared/components/CreateNewPost/CreateNewPost';
 import Business from '@/shared/components/Home/Business/Business';
@@ -15,7 +16,14 @@ const socialPostsData = [
         content: 'I’ll make Italian Pasta',
         hashTags: ['Italian', 'Food', 'Pasta'],
         avatar: '/pictures/mockImages/avatar.png',
-        imageContent: '/pictures/mockImages/socialContent.png',
+        imageContent: [
+            '/pictures/mockImages/socialContent.png',
+            '/pictures/mockImages/socialContent.png',
+            '/pictures/mockImages/socialContent.png',
+            '/pictures/mockImages/socialContent.png',
+            '/pictures/mockImages/socialContent.png',
+            '/pictures/mockImages/socialContent.png',
+        ],
         likes: 200,
         dislikes: 1,
         commentCount: 234,
@@ -56,7 +64,9 @@ export default function HomePage(): JSX.Element {
                 <p className={'text-[24px] font-semibold'}>Social</p>
 
                 <button className="flex items-center gap-1 text-gray-500 hover:text-gray-700 transition-colors group cursor-pointer">
-                    <span className="text-sm font-medium">View All</span>
+                    <Link href={'/social'}>
+                        <span className="text-sm font-medium">View All</span>
+                    </Link>
                     <svg
                         width="20"
                         height="20"

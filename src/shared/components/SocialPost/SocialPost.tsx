@@ -16,7 +16,7 @@ interface Props {
     content: string;
     hashTags: string[];
     avatar: string;
-    imageContent?: string;
+    imageContent?: string | string[];
     likes: number;
     dislikes: number;
     commentCount: number;
@@ -34,6 +34,11 @@ export default function SocialPost({
     dislikes,
     commentCount,
 }: Props): JSX.Element {
+    const images = imageContent
+        ? Array.isArray(imageContent)
+            ? imageContent
+            : [imageContent]
+        : [];
     return (
         <section
             className={' w-full p-5 rounded-[20px]'}
@@ -73,15 +78,60 @@ export default function SocialPost({
                 </div>
             </div>
 
-            {imageContent && (
-                <div className={'relative w-full h-[300px] lg:h-[411px] mb-6'}>
-                    <Image
-                        alt={'image content'}
-                        src={imageContent}
-                        fill
-                        className="object-cover rounded-[20px]"
-                        priority
-                    />
+            {images.length > 0 && (
+                <div className={'mb-6'}>
+                    {images.length === 1 ? (
+                        <div
+                            className={'relative w-full h-[300px] lg:h-[411px]'}
+                        >
+                            <Image
+                                alt={'Post image'}
+                                src={images[0]}
+                                fill
+                                className="object-cover rounded-[20px]"
+                                priority
+                            />
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-2 gap-2">
+                            <div
+                                className={
+                                    'relative row-span-2 h-[300px] lg:h-[411px]'
+                                }
+                            >
+                                <Image
+                                    alt={'Post image 1'}
+                                    src={images[0]}
+                                    fill
+                                    className="object-cover rounded-[20px]"
+                                    priority
+                                />
+                            </div>
+
+                            {images.slice(1, 5).map((img, index) => (
+                                <div
+                                    key={index}
+                                    className={
+                                        'relative h-[145px] lg:h-[200px]'
+                                    }
+                                >
+                                    <Image
+                                        alt={`Post image ${index + 2}`}
+                                        src={img}
+                                        fill
+                                        className="object-cover rounded-[12px]"
+                                    />
+                                    {index === 3 && images.length > 5 && (
+                                        <div className="absolute inset-0 bg-black bg-opacity-60 rounded-[12px] flex items-center justify-center">
+                                            <span className="text-white text-2xl font-bold">
+                                                +{images.length - 5}
+                                            </span>
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             )}
 

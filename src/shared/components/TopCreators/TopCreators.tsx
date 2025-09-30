@@ -44,9 +44,9 @@ export default function TopCreators(): JSX.Element {
         >
             <div className={'flex flex-row items-center justify-between p-6'}>
                 <h2 className={'text-[24px]'}>Top Creator</h2>
-                <p className={'text-gray-500 hover:underline cursor-pointer'}>
-                    See All
-                </p>
+                {/*<p className={'text-gray-500 hover:underline cursor-pointer'}>*/}
+                {/*    See All*/}
+                {/*</p>*/}
             </div>
             <div className={'px-6'}>
                 {topCreatorsArray.map((c, i) => (

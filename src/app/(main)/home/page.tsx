@@ -1,10 +1,10 @@
 import { JSX } from 'react';
 
+import CreateNewPost from '@/shared/components/CreateNewPost/CreateNewPost';
 import Business from '@/shared/components/Home/Business/Business';
 import ChannelsYouFollow from '@/shared/components/Home/ChannelsYouFollow/ChannelsYouFollow';
 import Streaming from '@/shared/components/Home/Streaming/Streaming';
 import SocialPost from '@/shared/components/SocialPost/SocialPost';
-import CreateNewPost from '@/shared/components/CreateNewPost/CreateNewPost';
 
 const socialPostsData = [
     {

@@ -103,10 +103,17 @@ export default function DiscoverPageTabs(): JSX.Element {
                                 {...item.data}
                                 key={item.id}
                                 isVerified={true}
+                                className={'!max-w-[354px]'}
                             />
                         );
                     } else if (item.type === 'blog') {
-                        return <BlogItem {...item.data} key={item.id} />;
+                        return (
+                            <BlogItem
+                                {...item.data}
+                                key={item.id}
+                                className={'!max-w-[354px]'}
+                            />
+                        );
                     }
                     return null;
                 })}

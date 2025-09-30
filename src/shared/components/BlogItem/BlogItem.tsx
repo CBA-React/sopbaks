@@ -1,4 +1,5 @@
 import React, { JSX } from 'react';
+import clsx from 'clsx';
 import Image from 'next/image';
 
 interface BlogItemProps {
@@ -9,6 +10,7 @@ interface BlogItemProps {
     postedTime?: string;
     authorName: string;
     viewsCount?: string;
+    className?: string;
 }
 
 export default function BlogItem({
@@ -19,10 +21,11 @@ export default function BlogItem({
     postedTime,
     authorName,
     viewsCount,
+    className,
 }: BlogItemProps): JSX.Element {
     return (
         <div
-            className="w-full max-w-[354px] bg-white rounded-[14px]"
+            className={clsx('w-full bg-white rounded-[14px]', className)}
             style={{ boxShadow: '0px 4.8px 60px 0px #00000014' }}
         >
             <div className="w-full h-[236px] relative">

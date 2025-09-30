@@ -1,6 +1,7 @@
 'use client';
 
 import React, { JSX } from 'react';
+import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -17,6 +18,7 @@ interface StreamItemProps {
     authorTitle?: string;
     authorName: string;
     isVerified?: boolean;
+    className?: string;
 }
 
 export default function StreamItem({
@@ -26,10 +28,11 @@ export default function StreamItem({
     authorTitle,
     authorName,
     isVerified,
+    className,
 }: StreamItemProps): JSX.Element {
     return (
         <div
-            className="w-full max-w-[354px] bg-white rounded-[14px]"
+            className={clsx('w-full bg-white rounded-[14px]', className)}
             style={{ boxShadow: '0px 4.8px 60px 0px #00000014' }}
         >
             <div className="w-full h-[236px] relative">

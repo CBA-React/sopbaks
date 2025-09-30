@@ -2,6 +2,7 @@
 
 import { JSX, useRef, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import NotificationIcon from '@/shared/components/NotificationIcon/NotificationIIcon';
 import { Burger } from '../Burger/Burger';
@@ -32,7 +33,6 @@ export default function Header(): JSX.Element {
     return (
         <>
             <header className="sticky top-0 z-1001 flex flex-row justify-between h-[97px] max-[1120px]:h-fit max-[1120px]:p-4 min-[1120px]:border-b-[1px] border-b-[#CCCCCC] items-center pl-12 pr-10 bg-[#FAFAFA]">
-                {/* Меню */}
                 <ul className="flex gap-6 max-[1120px]:hidden">
                     {menu.map((item) => (
                         <MenuItem
@@ -46,12 +46,9 @@ export default function Header(): JSX.Element {
                 <div className="w-full flex justify-between min-[1120px]:justify-end">
                     <LogoMobileIcon className="min-[1120px]:hidden " />
 
-                    {/* Поиск + нотификейшн + аватарка */}
                     <div className="flex flex-row items-center gap-3 lg:gap-[18px]">
-                        {/* Поиск */}
                         <Search className="w-[300px] max-[1120px]:hidden" />
 
-                        {/* Уведомления */}
                         <NotificationIcon hasNotifications={true} />
 
                         <SearchOnPhoneIcon
@@ -66,7 +63,6 @@ export default function Header(): JSX.Element {
                             closeBurgerMenu={clickBurger}
                         />
 
-                        {/* Аватарка */}
                         <div
                             ref={avatarRef}
                             className="relative max-[1120px]:hidden"
@@ -85,12 +81,11 @@ export default function Header(): JSX.Element {
 
                             {isAvatarOpen && (
                                 <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded shadow-lg p-3 z-10">
-                                    <p className="text-sm cursor-pointer hover:bg-gray-100 rounded px-2 py-1">
-                                        Profile
-                                    </p>
-                                    <p className="text-sm cursor-pointer hover:bg-gray-100 rounded px-2 py-1">
-                                        Settings
-                                    </p>
+                                    <Link href={'/settings'}>
+                                        <p className="text-sm cursor-pointer hover:bg-gray-100 rounded px-2 py-1">
+                                            Settings
+                                        </p>
+                                    </Link>
                                     <p className="text-sm cursor-pointer hover:bg-gray-100 rounded px-2 py-1">
                                         Logout
                                     </p>
@@ -100,7 +95,6 @@ export default function Header(): JSX.Element {
                     </div>
                 </div>
             </header>
-            {/* Меню Mobile*/}
             <ul className="flex gap-6 p-4 min-[1120px]:hidden pb-0">
                 {menu.map((item) => (
                     <MenuItem

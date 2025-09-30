@@ -67,6 +67,8 @@ const accountDetailsSchema = z.object({
             (val) => countries.some((country) => country.value === val),
             'Please select a valid country',
         ),
+    shortBio: z.string().optional(),
+    longBio: z.string().optional(),
 
     avatar: z.instanceof(File).optional().or(z.string().optional()),
 });
@@ -180,6 +182,23 @@ export default function AccountDetails(): JSX.Element {
                     options={countries}
                     registration={register('country')}
                     error={errors.country}
+                />
+            </div>
+            <div className={'flex flex-col lg:flex-row gap-3 items-center'}>
+                <p className="w-full lg:w-[20%]">Short Bio</p>
+                <Input
+                    placeholder="Enter short bio (optional)"
+                    registration={register('shortBio')}
+                    error={errors.shortBio}
+                />
+            </div>
+            <div className={'flex flex-col lg:flex-row gap-3'}>
+                <p className="w-full lg:w-[20%]">Long Bio</p>
+                <Input
+                    type="textarea"
+                    placeholder="Enter long bio (optional)"
+                    registration={register('longBio')}
+                    error={errors.longBio}
                 />
             </div>
             <Button text={'Submit'} type={'submit'} />

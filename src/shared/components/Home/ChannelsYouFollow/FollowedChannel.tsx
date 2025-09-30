@@ -1,16 +1,19 @@
 import { JSX } from 'react';
+import clsx from 'clsx';
 import Image from 'next/image';
 
 interface Props {
     avatar: string;
     fullName: string;
     updatedAt: string;
+    onlineStatus?: string | undefined;
 }
 
 export default function FollowedChannel({
     avatar,
     fullName,
     updatedAt,
+    onlineStatus,
 }: Props): JSX.Element {
     return (
         <div className="flex flex-col items-center gap-2 cursor-pointer group">
@@ -25,7 +28,17 @@ export default function FollowedChannel({
                     />
                 </div>
 
-                <div className="absolute top-0 right-2 w-5 h-5 bg-green-500 rounded-full border-2 border-white" />
+                {onlineStatus && (
+                    <div
+                        className={clsx(
+                            'absolute top-0 right-2 w-5 h-5 rounded-full border-2 border-white',
+                            {
+                                'bg-[#7CC54F]': onlineStatus === 'online',
+                                'bg-[#C32033]': onlineStatus === 'streaming',
+                            },
+                        )}
+                    />
+                )}
             </div>
 
             <p className="font-semibold text-center">{fullName}</p>

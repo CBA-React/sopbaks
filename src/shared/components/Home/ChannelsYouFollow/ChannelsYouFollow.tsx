@@ -8,6 +8,7 @@ const users = [
         avatar: '/pictures/mockImages/avatar.png',
         fullName: 'Guy Hawkins',
         updatedAt: '14m ago',
+        onlineStatus: 'online',
     },
     {
         id: 2,
@@ -20,6 +21,7 @@ const users = [
         avatar: '/pictures/mockImages/avatar.png',
         fullName: 'Guy Hawkins',
         updatedAt: '14m ago',
+        onlineStatus: 'streaming',
     },
     {
         id: 4,
@@ -32,6 +34,7 @@ const users = [
         avatar: '/pictures/mockImages/avatar.png',
         fullName: 'Guy Hawkins',
         updatedAt: '14m ago',
+        onlineStatus: 'online',
     },
     {
         id: 6,
@@ -50,6 +53,7 @@ const users = [
         avatar: '/pictures/mockImages/avatar.png',
         fullName: 'Guy Hawkins',
         updatedAt: '14m ago',
+        onlineStatus: 'streaming',
     },
     {
         id: 9,
@@ -108,6 +112,7 @@ export default function ChannelsYouFollow(): JSX.Element {
                             avatar={user.avatar}
                             fullName={user.fullName}
                             updatedAt={user.updatedAt}
+                            onlineStatus={user.onlineStatus}
                         />
                     ))}
                 </div>

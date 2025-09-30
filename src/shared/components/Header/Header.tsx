@@ -13,7 +13,6 @@ import LogoMobileIcon from 'public/icons/logoMobile.svg';
 import SearchOnPhoneIcon from 'public/icons/search-on-phone.svg';
 
 const menu = [
-    { label: 'All', href: '/all' },
     { label: 'Social', href: '/social' },
     { label: 'Business', href: '/business' },
     { label: 'Streaming', href: '/streaming' },

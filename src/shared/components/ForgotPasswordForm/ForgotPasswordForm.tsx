@@ -1,23 +1,35 @@
 'use client';
 
-import React from 'react';
+import React, { JSX } from 'react';
 import { useForm } from 'react-hook-form';
+
+import { useResetPassword } from '@/api/auth/hooks/useResetPassword';
 
 interface ForgotPasswordFormData {
     email: string;
 }
 
-export default function ForgotPasswordForm() {
+export default function ForgotPasswordForm(): JSX.Element {
+    const { mutate: resetPassword, isPending } = useResetPassword();
+
     const {
         register,
         handleSubmit,
+        getValues,
         formState: { errors },
     } = useForm<ForgotPasswordFormData>({
         mode: 'onBlur',
     });
 
-    const onSubmit = (data: ForgotPasswordFormData) => {
-        console.log('Form submitted:', data);
+    const onSubmit = (data: ForgotPasswordFormData): void => {
+        resetPassword(data);
+    };
+
+    const handleSendAgain = (): void => {
+        const email = getValues('email');
+        if (email) {
+            resetPassword({ email });
+        }
     };
 
     return (
@@ -34,7 +46,6 @@ export default function ForgotPasswordForm() {
                 </p>
             </div>
 
-            {/* Email */}
             <div className="flex flex-col">
                 <label className="mb-1 font-medium">Email</label>
                 <input
@@ -57,14 +68,18 @@ export default function ForgotPasswordForm() {
             </div>
 
             <button
+                disabled={isPending}
                 type="submit"
                 className="w-full bg-[#C32033] text-white py-3 rounded-[10px] font-medium cursor-pointer"
             >
-                Send Reset Link
+                {isPending ? 'Processing...' : ' Send Reset Link'}
             </button>
             <p className={'text-center'}>
                 Didn’t get the email?{' '}
-                <span className={'text-[#C32033] cursor-pointer'}>
+                <span
+                    className={'text-[#C32033] cursor-pointer'}
+                    onClick={handleSendAgain}
+                >
                     Send Again
                 </span>
             </p>

@@ -14,7 +14,7 @@ export const useLogin = (): UseMutationResult<
 > => {
     const router = useRouter();
 
-    return useMutation<LoginResponse, AxiosError<ApiError>, LoginRequest>({
+    return useMutation({
         mutationFn: authApi.login,
         onSuccess: (data) => {
             authStorage.setTokens(
@@ -23,7 +23,10 @@ export const useLogin = (): UseMutationResult<
             );
 
             toast.success('Login successful!');
-            router.push('/home');
+
+            setTimeout(() => {
+                router.push('/home');
+            }, 100);
         },
         onError: (error) => {
             const errorMessage =

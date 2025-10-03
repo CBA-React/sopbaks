@@ -1,8 +1,11 @@
 'use client';
 
-import React, { JSX, useState } from 'react';
+import React, { JSX, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
+import { useChangePassword } from '@/api/auth/hooks/useChangePassword';
 import { EyeClose } from '@/shared/components/EyeIcon/EyeClose';
 import { EyeOpen } from '@/shared/components/EyeIcon/EyeOpen';
 
@@ -14,24 +17,50 @@ interface NewPasswordFormData {
 export default function NewPasswordForm(): JSX.Element {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [email, setEmail] = useState<string>('');
+    const [code, setCode] = useState<string>('');
+
+    const router = useRouter();
+    const { mutate: changePassword, isPending } = useChangePassword();
 
     const {
         register,
         handleSubmit,
         watch,
-        formState: { errors, isSubmitting },
+        formState: { errors },
     } = useForm<NewPasswordFormData>({
         mode: 'onBlur',
     });
 
     const password = watch('password');
 
-    const onSubmit = async (data: NewPasswordFormData) => {
-        try {
-            console.log('Form submitted:', data);
-        } catch (error) {
-            console.error('Ошибка при установке пароля:', error);
+    useEffect(() => {
+        const savedEmail = sessionStorage.getItem('resetEmail');
+        const savedCode = sessionStorage.getItem('resetCode');
+
+        if (!savedEmail || !savedCode) {
+            toast.error('Session expired. Please start over.');
+            router.push('/forgot-password');
+            return;
         }
+
+        setEmail(savedEmail);
+        setCode(savedCode);
+    }, [router]);
+
+    const onSubmit = (data: NewPasswordFormData): void => {
+        if (!email || !code) {
+            toast.error('Session data missing. Please start over.');
+            router.push('/forgot-password');
+            return;
+        }
+
+        changePassword({
+            email,
+            password_1: data.password,
+            password_2: data.confirmPassword,
+            code,
+        });
     };
 
     return (
@@ -60,10 +89,24 @@ export default function NewPasswordForm(): JSX.Element {
                                 message:
                                     'Password must be at least 8 characters',
                             },
-                            pattern: {
-                                value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+                            maxLength: {
+                                value: 64,
                                 message:
-                                    'Password must contain at least one uppercase letter, lowercase letter and number',
+                                    'Password must not exceed 64 characters',
+                            },
+                            validate: {
+                                hasNumber: (value) =>
+                                    /\d/.test(value) ||
+                                    'Password must contain at least one number',
+                                hasUpperCase: (value) =>
+                                    /[A-Z]/.test(value) ||
+                                    'Password must contain at least one uppercase letter',
+                                hasLowerCase: (value) =>
+                                    /[a-z]/.test(value) ||
+                                    'Password must contain at least one lowercase letter',
+                                noSpecialChars: (value) =>
+                                    /^[A-Za-z0-9]+$/.test(value) ||
+                                    'Password must contain only letters and numbers',
                             },
                         })}
                         className="w-full border border-gray-300 rounded px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -123,10 +166,10 @@ export default function NewPasswordForm(): JSX.Element {
 
             <button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isPending}
                 className="w-full bg-[#C32033] text-white py-3 rounded-[10px] font-medium cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed"
             >
-                {isSubmitting ? 'Saving...' : 'Save'}
+                {isPending ? 'Saving...' : 'Save'}
             </button>
         </form>
     );

@@ -1,6 +1,6 @@
 import { JSX } from 'react';
 
-export function GlobeIcon():JSX.Element {
+export function GlobeIcon(): JSX.Element {
     return (
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
             <circle

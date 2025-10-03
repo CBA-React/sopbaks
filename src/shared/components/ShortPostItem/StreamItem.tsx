@@ -14,7 +14,7 @@ interface StreamItemProps {
     authorTitle: string;
     authorName: string;
     isVerified?: boolean;
-};
+}
 
 export default function StreamItem({
     image,

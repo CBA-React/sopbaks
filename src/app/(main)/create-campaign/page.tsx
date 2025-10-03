@@ -456,7 +456,17 @@ export default function CreateCampaign(): JSX.Element {
                                                     {hoveredCategory ===
                                                         category.id &&
                                                         category.tooltip && (
-                                                            <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 bg-[#C5C5C5] text-white text-sm px-3 py-2 rounded-lg shadow-lg z-50 whitespace-normal max-w-[280px]">
+                                                            <div
+                                                                className={`absolute ${
+                                                                    categories.indexOf(
+                                                                        category,
+                                                                    ) >=
+                                                                    categories.length -
+                                                                        4
+                                                                        ? 'bottom-full mb-2'
+                                                                        : 'top-full mt-2'
+                                                                } left-1/2 transform -translate-x-1/2 bg-[#C5C5C5] text-white text-sm px-3 py-2 rounded-lg shadow-lg z-50 whitespace-normal max-w-[280px]`}
+                                                            >
                                                                 <InfoIcon className="flex-shrink-0 inline-block mr-2" />
                                                                 {
                                                                     category.tooltip
@@ -505,10 +515,6 @@ export default function CreateCampaign(): JSX.Element {
                                     </option>
                                     <option value="public">Public</option>
                                     <option value="private">Private</option>
-                                    <option value="team">Team only</option>
-                                    <option value="organization">
-                                        Organization
-                                    </option>
                                 </select>
                                 <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                                     <SelectArrow

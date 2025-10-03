@@ -4,6 +4,8 @@ import React, { ReactNode } from 'react';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
+import { Providers } from '@/providers';
+
 import { AppProvider } from './Provider';
 
 export const metadata: Metadata = {
@@ -11,7 +13,7 @@ export const metadata: Metadata = {
     description: 'Custom setup by CBA',
 };
 
-export const PoppinsFont = localFont({
+const PoppinsFont = localFont({
     src: [
         {
             path: '../fonts/Poppins-Medium.ttf',
@@ -30,7 +32,9 @@ export default function RootLayout({
     return (
         <html lang="en" className={PoppinsFont.variable}>
             <body>
-                <AppProvider>{children}</AppProvider>
+                <AppProvider>
+                    <Providers>{children}</Providers>
+                </AppProvider>
             </body>
         </html>
     );

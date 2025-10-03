@@ -4,6 +4,7 @@ import { JSX, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { useLogout } from '@/api/auth/hooks/useLogout';
 import NotificationIcon from '@/shared/components/NotificationIcon/NotificationIIcon';
 import { Burger } from '../Burger/Burger';
 import { MenuItem } from '../MenuItem/MenuItem';
@@ -20,6 +21,7 @@ const menu = [
 ];
 
 export default function Header(): JSX.Element {
+    const { logout } = useLogout();
     const [isAvatarOpen, setIsAvatarOpen] = useState(false);
     const [burgerActive, setBurgerActive] = useState(false);
 
@@ -86,7 +88,10 @@ export default function Header(): JSX.Element {
                                             Settings
                                         </p>
                                     </Link>
-                                    <p className="text-sm cursor-pointer hover:bg-gray-100 rounded px-2 py-1">
+                                    <p
+                                        className="text-sm cursor-pointer hover:bg-gray-100 rounded px-2 py-1"
+                                        onClick={logout}
+                                    >
                                         Logout
                                     </p>
                                 </div>

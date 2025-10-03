@@ -32,7 +32,6 @@ export const useLogin = (): UseMutationResult<
                 'Login failed. Please check your credentials.';
 
             toast.error(errorMessage);
-            console.error('Login error:', error);
         },
     });
 };

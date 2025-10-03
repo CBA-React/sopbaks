@@ -35,8 +35,6 @@ export const useRegister = (): UseMutationResult<
                     'Registration failed. Please try again.';
 
                 toast.error(errorMessage);
-
-                console.error('Registration error:', error);
             },
         },
     );

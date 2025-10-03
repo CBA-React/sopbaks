@@ -9,6 +9,7 @@ import {
     RegisterRequest,
     RegisterResponse,
 } from '@/api/auth/auth.types';
+import { authStorage } from '@/api/auth/authStorage';
 
 export const useRegister = (): UseMutationResult<
     RegisterResponse,
@@ -21,12 +22,16 @@ export const useRegister = (): UseMutationResult<
         {
             mutationFn: authApi.register,
             onSuccess: (data) => {
-                localStorage.setItem('accessToken', data.token.access_token);
-                localStorage.setItem('refreshToken', data.token.refresh_token);
+                authStorage.setTokens(
+                    data.token.access_token,
+                    data.token.refresh_token,
+                );
 
                 toast.success('Registration successful!');
 
-                router.push('/home');
+                setTimeout(() => {
+                    router.push('/home');
+                }, 100);
             },
             onError: (error) => {
                 const errorMessage =

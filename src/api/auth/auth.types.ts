@@ -52,3 +52,34 @@ export interface LoginResponse {
         refresh_token: string;
     };
 }
+
+export interface ResetPasswordRequest {
+    email: string;
+}
+
+export interface ResetPasswordResponse {
+    success: boolean;
+    message: string;
+}
+
+export interface VerifyResetCodeRequest {
+    email: string;
+    code: string;
+}
+
+export interface VerifyResetCodeResponse {
+    success: boolean;
+    message: string;
+}
+
+export interface ChangePasswordRequest {
+    email: string;
+    password_1: string;
+    password_2: string;
+    code: string;
+}
+
+export interface ChangePasswordResponse {
+    success: boolean;
+    message: string;
+}

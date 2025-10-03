@@ -4,6 +4,7 @@ import React, { JSX, useState } from 'react';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 
+import { useRegister } from '@/api/auth/hooks/useRegister';
 import Checkbox from '@/shared/components/Checkbox/Checkbox';
 import { EyeClose } from '@/shared/components/EyeIcon/EyeClose';
 import { EyeOpen } from '@/shared/components/EyeIcon/EyeOpen';
@@ -19,6 +20,8 @@ export default function SignInForm(): JSX.Element {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+    const { mutate: registerUser, isPending } = useRegister();
+
     const {
         register,
         handleSubmit,
@@ -30,8 +33,12 @@ export default function SignInForm(): JSX.Element {
 
     const password = watch('password');
 
-    const onSubmit = (data: SignUpFormData) => {
-        console.log('Form submitted:', data);
+    const onSubmit = (data: SignUpFormData): void => {
+        registerUser({
+            email: data.email,
+            password_1: data.password,
+            password_2: data.confirmPassword,
+        });
     };
 
     return (
@@ -71,9 +78,19 @@ export default function SignInForm(): JSX.Element {
                         {...register('password', {
                             required: 'Password is required',
                             minLength: {
-                                value: 6,
+                                value: 8,
                                 message:
-                                    'Password must be at least 6 characters',
+                                    'Password must be at least 8 characters',
+                            },
+                            maxLength: {
+                                value: 64,
+                                message:
+                                    'Password must not exceed 64 characters',
+                            },
+                            pattern: {
+                                value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,64}$/,
+                                message:
+                                    'Password must contain at least one uppercase letter, one lowercase letter, one number, and no special characters',
                             },
                         })}
                         className="w-full border border-gray-300 rounded px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -161,10 +178,11 @@ export default function SignInForm(): JSX.Element {
                 </Link>
 
                 <button
+                    disabled={isPending}
                     type="submit"
                     className="w-full bg-[#C32033] text-white py-2 rounded-[10px] font-medium cursor-pointer"
                 >
-                    Sign Up
+                    {isPending ? 'Processing...' : 'Sign Up'}
                 </button>
             </div>
 

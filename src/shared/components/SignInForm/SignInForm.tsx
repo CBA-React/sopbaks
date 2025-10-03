@@ -4,6 +4,7 @@ import React, { JSX, useState } from 'react';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 
+import { useLogin } from '@/api/auth/hooks/useLogin';
 import { EyeClose } from '@/shared/components/EyeIcon/EyeClose';
 import { EyeOpen } from '@/shared/components/EyeIcon/EyeOpen';
 
@@ -14,6 +15,7 @@ interface LoginFormData {
 
 export default function SignInForm(): JSX.Element {
     const [showPassword, setShowPassword] = useState(false);
+    const { mutate: login, isPending } = useLogin();
 
     const {
         register,
@@ -23,8 +25,8 @@ export default function SignInForm(): JSX.Element {
         mode: 'onBlur',
     });
 
-    const onSubmit = (data: LoginFormData) => {
-        console.log('Form submitted:', data);
+    const onSubmit = (data: LoginFormData): void => {
+        login(data);
     };
 
     return (
@@ -34,7 +36,6 @@ export default function SignInForm(): JSX.Element {
         >
             <h2 className="text-[32px] font-bold">Sign In</h2>
 
-            {/* Email */}
             <div className="flex flex-col">
                 <label className="mb-1 font-medium">Email</label>
                 <input
@@ -94,10 +95,11 @@ export default function SignInForm(): JSX.Element {
             </div>
 
             <button
+                disabled={isPending}
                 type="submit"
                 className="w-full bg-[#C32033] text-white py-2 rounded-[10px] font-medium cursor-pointer"
             >
-                Sign In
+                {isPending ? 'Processing...' : 'Sign In'}
             </button>
             <p className="text-center">
                 Don&#39;t have an account?{' '}
